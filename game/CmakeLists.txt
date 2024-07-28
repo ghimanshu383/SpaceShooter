@@ -1,0 +1,99 @@
+add_executable(
+        ${GAME_NAME}
+        include/GameApplication.h
+        src/GameApplication.cpp
+        include/Config.h
+        include/SpaceShip/SpaceShip.h
+        src/SpaceShip/SpaceShip.cpp
+        include/Player/PlayerSpaceShip.h
+        src/Player/PlayerSpaceShip.cpp
+        include/weapons/Shooter.h
+        include/weapons/BulletShooter.h
+        src/weapons/Shooter.cpp
+        src/weapons/BulletShooter.cpp
+        include/weapons/Bullet.h
+        src/weapons/Bullet.cpp
+        include/gameplay/HealthComponent.h
+        src/gameplay/HealtComponent.cpp
+        include/vfx/Explosion.h
+        src/vfx/Explosion.cpp
+        include/Enemy/EnemySpaceShip.h
+        src/Enemy/EnemySpaceShip.cpp
+        src/Enemy/Vanguard.cpp
+        include/Enemy/Vanguard.h
+        include/levels/LevelOne.h
+        src/levels/LevelOne.cpp
+        include/gameplay/VanguardStage.h
+        src/gameplay/VanguardStage.cpp
+        include/Enemy/TwinBlade.h
+        src/Enemy/TwinBlade.cpp
+        src/gameplay/TwinBladeStage.cpp
+        include/gameplay/TwinBladeStage.h
+        include/Enemy/HexGuard.h
+        src/Enemy/HexGuard.cpp
+        include/gameplay/HexGuardStage.h
+        src/gameplay/HexGuardStage.cpp
+        include/Enemy/UFO.h
+        src/Enemy/UFO.cpp
+        src/gameplay/UFOStage.cpp
+        include/gameplay/UFOStage.h
+        src/weapons/ThreeWayShooter.cpp
+        include/weapons/ThreeWayShooter.h
+        include/weapons/FrontalWipper.h
+        src/weapons/FrontalWipper.cpp
+        src/gameplay/Rewards.cpp
+        include/gameplay/Rewards.h
+        include/Player/Player.h
+        src/Player/Player.cpp
+        include/gameplay/widgets/GamePlayHud.h
+        src/gameplay/widgets/GamePlayHud.cpp
+        include/gameplay/ChaosStage.h
+        src/gameplay/ChaosStage.cpp
+        include/Enemy/Boss.h
+        src/Enemy/Boss.cpp
+        include/gameplay/BossStage.h
+        src/gameplay/BossStage.cpp
+)
+
+target_include_directories(${GAME_NAME} PUBLIC
+        ${CMAKE_CURRENT_SOURCE_DIR}/include
+)
+
+target_link_libraries(${GAME_NAME} PUBLIC
+        shooterEngine
+)
+
+function(copyLibToTarget libName targetName)
+    add_custom_command(TARGET ${targetName}
+            POST_BUILD
+            COMMAND
+            ${CMAKE_COMMAND} -E copy_if_different
+            $<TARGET_FILE:${libName}>
+            $<TARGET_FILE_DIR:${targetName}>
+
+    )
+endfunction()
+copyLibToTarget(sfml-graphics ${GAME_NAME})
+copyLibToTarget(sfml-window ${GAME_NAME})
+copyLibToTarget(sfml-system ${GAME_NAME})
+copyLibToTarget(sfml-audio ${GAME_NAME})
+copyLibToTarget(box2d ${GAME_NAME})
+
+# adding the asset folder to the game build directory.
+set(ASSET_DIR assets)
+set(RESOURCE_SRC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/${ASSET_DIR})
+
+add_custom_command(
+        TARGET ${GAME_NAME}
+        POST_BUILD
+        COMMAND
+        ${CMAKE_COMMAND} -E copy_directory
+        ${CMAKE_CURRENT_SOURCE_DIR}/${ASSET_DIR}
+        $<TARGET_FILE_DIR:${GAME_NAME}>/${ASSET_DIR}
+)
+
+configure_file(
+        "Config.h.in"
+        ${CMAKE_CURRENT_SOURCE_DIR}/include/Config.h ESCAPE_QUOTES
+)
+

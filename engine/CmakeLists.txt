@@ -1,0 +1,51 @@
+add_library(${ENGINE_NAME} STATIC
+        include/Application.h
+        src/Application.cpp
+        src/Entry.cpp
+        include/Core.h
+        include/frameWork/World.h
+        src/frameWork/World.cpp
+        include/frameWork/Actor.h
+        src/frameWork/Actor.cpp
+        include/frameWork/Object.h
+        src/frameWork/Object.cpp
+        include/frameWork/AssetManager.h
+        src/frameWork/AssetManager.cpp
+        include/frameWork/MathUtil.h
+        src/frameWork/MathUtil.cpp
+        include/frameWork/PhysicsSystem.h
+        src/frameWork/PhysicsSystem.cpp
+        include/frameWork/Delegate.h
+        include/frameWork/vfx/Particle.h
+        src/frameWork/vfx/Particle.cpp
+        include/frameWork/TimerManager.h
+        src/frameWork/TimerManager.cpp
+        include/frameWork/GameStage.h
+        src/frameWork/GameStage.cpp
+        include/frameWork/WaitStage.h
+        src/frameWork/WaitStage.cpp
+        include/frameWork/widgets/HUD.h
+        src/frameWork/Widgets/HUD.cpp
+        include/frameWork/widgets/Widget.h
+        src/frameWork/Widgets/Widget.cpp
+        include/frameWork/widgets/TextWidget.h
+        src/frameWork/Widgets/TextWidget.cpp
+        include/frameWork/BackDropActor.h
+        src/frameWork/BackDropActor.cpp
+        include/frameWork/BackGroundLayer.h
+        src/frameWork/BackGroundLayer.cpp
+        src/frameWork/BackgroundActors.cpp
+        include/frameWork/BackGroundActors.h
+)
+
+target_include_directories(${ENGINE_NAME} PUBLIC
+        include
+)
+
+target_link_libraries(${ENGINE_NAME} PUBLIC
+        sfml-graphics
+        sfml-window
+        sfml-audio
+        sfml-system
+        ${Box2d}
+)

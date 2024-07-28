@@ -1,0 +1,17 @@
+//
+// Created by ghima on 15-07-2024.
+//
+#include <string>
+
+#ifndef LIGHTYEARS_CONFIG_H
+#define LIGHTYEARS_CONFIG_H
+
+std::string GetAssetSourceDir() {
+#ifdef NDEBUG
+    return "@ASSET_DIR@/"
+#else
+    return "@RESOURCE_SRC_DIR@/";
+#endif
+}
+
+#endif LIGHTYEARS_CONFIG_H
